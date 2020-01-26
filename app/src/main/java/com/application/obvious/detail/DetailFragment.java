@@ -1,14 +1,18 @@
 package com.application.obvious.detail;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -23,9 +27,21 @@ import static com.application.obvious.utils.Constants.IMAGE_LIST;
 import static com.application.obvious.utils.Constants.POSITION;
 
 public class DetailFragment extends Fragment{
-
+    private Activity activity;
     private FragmentDetailBinding binding;
     public DetailFragment() { }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        if(context instanceof Activity){
+            this.activity = (Activity)context;
+        }
+        else
+        {
+            this.activity = getActivity();
+        }
+        super.onAttach(context);
+    }
 
     public static DetailFragment newInstance(int current, ArrayList<ImageList.Image> images) {
         DetailFragment detailFragment = new DetailFragment();
@@ -42,6 +58,7 @@ public class DetailFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
         //Shared element animation
         postponeEnterTransition();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -54,6 +71,10 @@ public class DetailFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_detail, container, false);
+        ((AppCompatActivity)activity).setSupportActionBar(binding.toolbar);
+        ((AppCompatActivity)activity).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ((AppCompatActivity)activity).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         return  binding.getRoot();
     }
 
@@ -71,5 +92,14 @@ public class DetailFragment extends Fragment{
             viewPager.setAdapter(adapter);
             viewPager.setCurrentItem(currentItem);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home){
+            getFragmentManager().popBackStack();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
