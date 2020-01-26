@@ -2,6 +2,7 @@ package com.application.obvious.main;
 
 import android.content.Context;
 
+import com.application.obvious.R;
 import com.application.obvious.model.ImageList;
 import com.application.obvious.utils.HelperFunctions;
 import com.google.gson.Gson;
@@ -27,7 +28,7 @@ public class MainPresenter implements MainContract.MainPresenter{
            view.onSuccess(imageList);
         }else
         {
-            view.onFailure("JSON Data is corrupt");
+            view.onFailure(context.getString(R.string.error_message));
         }
     }
 

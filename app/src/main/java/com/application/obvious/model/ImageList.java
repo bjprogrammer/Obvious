@@ -1,6 +1,8 @@
 package com.application.obvious.model;
 
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -18,11 +20,12 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.google.gson.annotations.SerializedName;
+import com.jsibbold.zoomage.ZoomageView;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.List;
 
-public class ImageList extends BaseObservable {
+public class ImageList extends BaseObservable implements Parcelable {
 
     @SerializedName("Data")
     private List<Image> data;
@@ -37,7 +40,32 @@ public class ImageList extends BaseObservable {
         notifyPropertyChanged(BR.data);
     }
 
-    public static class Image extends BaseObservable {
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Parcelable.Creator<ImageList> CREATOR = new Parcelable.Creator<ImageList>() {
+        public ImageList createFromParcel(Parcel in) {
+            return new ImageList(in);
+        }
+
+        public ImageList[] newArray(int size) {
+            return new ImageList[size];
+        }
+    };
+
+    private ImageList(Parcel in) {
+       in.readTypedList(data, Image.CREATOR);
+    }
+
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(data);
+    }
+
+    public static class Image extends BaseObservable implements  Parcelable{
 
         private String copyright;
 
@@ -61,6 +89,7 @@ public class ImageList extends BaseObservable {
         public String getCopyright() {
             return copyright;
         }
+
 
         public void setCopyright(String copyright) {
             this.copyright = copyright;
@@ -138,10 +167,79 @@ public class ImageList extends BaseObservable {
             this.title = title;
             notifyPropertyChanged(BR.title);
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(copyright);
+            dest.writeString(type);
+            dest.writeString(date);
+            dest.writeString(explanation);
+            dest.writeString(hdurl);
+            dest.writeString(url);
+            dest.writeString(version);
+            dest.writeString(title);
+        }
+
+        Image(Parcel in){
+            copyright = in.readString();
+            type = in.readString();
+            date = in.readString();
+            explanation = in.readString();
+            hdurl = in.readString();
+            url = in.readString();
+            version = in.readString();
+            title = in.readString();
+
+        }
+
+        public static final Parcelable.Creator<Image> CREATOR = new Parcelable.Creator<Image>() {
+            public Image createFromParcel(Parcel in) {
+                return new Image(in);
+            }
+
+            public Image[] newArray(int size) {
+                return new Image[size];
+            }
+        };
+    }
+
+
+    //Function ro load image from url using Glide and data binding
+    @BindingAdapter({"bind:url", "bind:spinner"})
+    public static void loadImage(ImageView view, String url, AVLoadingIndicatorView spinner)
+    {
+        spinner.show();
+        spinner.setVisibility(View.VISIBLE);
+        Glide.with(view.getContext())
+                .load(url)
+                .thumbnail(0.1f)
+                .apply(new RequestOptions().error(R.mipmap.no_image))
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        spinner.hide();
+                        spinner.setVisibility(View.GONE);
+                        view.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        spinner.hide();
+                        spinner.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .into(view);
     }
 
     @BindingAdapter({"bind:url", "bind:spinner"})
-    public static void loadImage(ImageView view, String url, AVLoadingIndicatorView spinner)
+    public static void loadImage(ZoomageView view, String url, AVLoadingIndicatorView spinner)
     {
         spinner.show();
         spinner.setVisibility(View.VISIBLE);

@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.databinding.library.baseAdapters.BR;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<ImageList.Image> data;
+    private List<ImageList.Image> imageList;
     private onPressListener listener;
 
     public interface onPressListener{
@@ -26,13 +27,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     MainAdapter(onPressListener listener) {
-        data = new ArrayList<>();
+        imageList = new ArrayList<>();
         this.listener =listener;
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
         RecyclerView.ViewHolder viewHolder = null;
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
@@ -42,15 +43,15 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         MainAdapter.ViewHolder viewHolder = (MainAdapter.ViewHolder) holder;
-        viewHolder.bind(data.get(i),listener, i);
+        viewHolder.bind(imageList.get(position),listener, position);
     }
 
 
     @Override
     public int getItemCount() {
-        return data == null ? 0 : data.size();
+        return imageList == null ? 0 : imageList.size();
     }
 
 
@@ -64,6 +65,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
         private void bind(Object obj, onPressListener listener, int position) {
+            ViewCompat.setTransitionName(binding.getRoot().findViewById(R.id.imageView), imageList.get(position).getTitle());
+
             binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -77,12 +80,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void add(ImageList.Image image) {
-        data.add(image);
-        notifyItemInserted(data.size() - 1);
+        imageList.add(image);
+        notifyItemInserted(imageList.size() - 1);
     }
 
-    void addAll(ImageList mcList) {
-        for (ImageList.Image response: mcList.getData()) {
+    void addAll(ImageList list) {
+        for (ImageList.Image response: list.getData()) {
             add(response);
         }
     }

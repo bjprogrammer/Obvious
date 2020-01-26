@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -22,7 +23,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.application.obvious.R;
 import com.application.obvious.databinding.FragmentRecyclerViewBinding;
+import com.application.obvious.detail.DetailFragment;
 import com.application.obvious.model.ImageList;
+
+import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
 import static com.application.obvious.utils.Constants.GRID_SIZE;
@@ -38,7 +42,10 @@ public class MainFragment extends Fragment implements MainContract.MainView{
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
 
+    private ArrayList<ImageList.Image> imageList;
     private TextView emptyList;
+
+    static final String TAG = MainFragment.class.getSimpleName();
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -55,7 +62,7 @@ public class MainFragment extends Fragment implements MainContract.MainView{
 
     public MainFragment() { }
 
-    public static MainFragment newInstance() {
+    static MainFragment newInstance() {
         return new MainFragment();
     }
 
@@ -120,6 +127,15 @@ public class MainFragment extends Fragment implements MainContract.MainView{
     private void setupRecyclerView(){
         adapter = new MainAdapter((position,  view) -> {
 
+            //Adding new fragment with shared element transition when a image is clicked
+            DetailFragment detailFragment = DetailFragment.newInstance(position, imageList);
+
+            getFragmentManager()
+                    .beginTransaction()
+                    .addSharedElement(view, ViewCompat.getTransitionName(view))
+                    .addToBackStack(TAG)
+                    .replace(R.id.content, detailFragment)
+                    .commit();
         });
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, GRID_SIZE);
@@ -144,8 +160,9 @@ public class MainFragment extends Fragment implements MainContract.MainView{
     public void onSuccess(ImageList response) {
         progressBar.setVisibility(View.GONE);
 
-        if(response!=null){
+        if(response!= null){
             if(!response.getData().isEmpty()){
+                imageList = (ArrayList<ImageList.Image>) response.getData();
                 adapter.addAll(response);
                 recyclerView.setVisibility(View.VISIBLE);
                 emptyList.setVisibility(View.GONE);

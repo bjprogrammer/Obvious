@@ -5,4 +5,5 @@
     <string name="image_thumbnail">Image Thumbnail</string>
     <string name="image">Image</string>
     <string name="displaying_full_size_image">Displaying full size image</string>
+    <string name="error_message">JSON Data is corrupt</string>
 </resources>

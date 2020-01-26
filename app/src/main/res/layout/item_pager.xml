@@ -20,7 +20,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:url="@{image.hdurl}"
+            app:url="@{image.url}"
             app:spinner="@{progressImage}"
             android:contentDescription="@string/displaying_full_size_image"
             app:zoomage_zoomable="true"
