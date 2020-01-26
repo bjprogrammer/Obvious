@@ -48,11 +48,13 @@ public class HelperFunctions {
     }
 
     //Changing date format from  yyyy-MM-dd to dd-MM-yyyy
-    public static String formatDate(String timestamp) throws Exception {
-        timestamp=timestamp.substring(0,10);
-        @SuppressLint("SimpleDateFormat") Date lastvisit=new SimpleDateFormat("yyyy-MM-dd").parse(timestamp);
-        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        timestamp=df.format(lastvisit);
+    public static String formatDate(String timestamp)  {
+        try {
+            timestamp = timestamp.substring(0, 10);
+            @SuppressLint("SimpleDateFormat") Date lastvisit = new SimpleDateFormat("yyyy-MM-dd").parse(timestamp);
+            @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+            timestamp = df.format(lastvisit);
+        }catch (Exception e){}
         return timestamp;
     }
 

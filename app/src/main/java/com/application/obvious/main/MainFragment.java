@@ -75,7 +75,6 @@ public class MainFragment extends Fragment implements MainContract.MainView{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         if (context == null) {
             context = getContext();
         }

@@ -2,6 +2,7 @@ package com.application.obvious.detail;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.transition.TransitionInflater;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,10 +73,15 @@ public class DetailFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_detail, container, false);
+
+        //Setting toolbar
         ((AppCompatActivity)activity).setSupportActionBar(binding.toolbar);
         ((AppCompatActivity)activity).getSupportActionBar().setDisplayShowTitleEnabled(false);
         ((AppCompatActivity)activity).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //Changing status bar color
+        Window window = activity.getWindow();
+        window.setStatusBarColor(Color.BLACK);
         return  binding.getRoot();
     }
 
@@ -96,7 +103,6 @@ public class DetailFragment extends Fragment{
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         if(item.getItemId() == android.R.id.home){
             getFragmentManager().popBackStack();
         }
