@@ -23,7 +23,6 @@ import static com.application.obvious.utils.Constants.IMAGE_LIST;
 import static com.application.obvious.utils.Constants.POSITION;
 
 public class DetailFragment extends Fragment{
-    private Context context;
 
     private FragmentDetailBinding binding;
     public DetailFragment() { }
@@ -46,17 +45,13 @@ public class DetailFragment extends Fragment{
         //Shared element animation
         postponeEnterTransition();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setSharedElementEnterTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.move));
+            setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (context == null) {
-            context = getContext();
-        }
-
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_detail, container, false);
         return  binding.getRoot();
