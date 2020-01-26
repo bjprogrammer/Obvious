@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="image"  type="com.application.obvious.model.ImageList.Image"/>
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/card_layout_margin"
+        android:layout_marginStart="@dimen/card_layout_margin"
+        android:layout_marginEnd="@dimen/card_layout_margin"
+        android:clickable="true"
+        android:focusable="true"
+        android:stateListAnimator="@animator/selector_animator"
+        app:cardUseCompatPadding="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardCornerRadius="@dimen/card_layout_corner_radius"
+        card_view:cardElevation="@dimen/card_layout_elevation">
+
+        <com.application.obvious.utils.SquareRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorAccent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                app:url="@{image.url}"
+                app:spinner="@{cardSpinner}"
+                android:contentDescription="@string/image_thumbnail" />
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/cardSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/AVLoadingIndicatorView"
+                android:visibility="gone"
+                app:indicatorName="BallScaleMultipleIndicator"
+                app:indicatorColor="@android:color/white"
+                android:layout_gravity="center"
+                android:layout_centerInParent="true"/>
+
+        </com.application.obvious.utils.SquareRelativeLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Obvious</string>
+    <string name="nothing_to_show">Nothing to Show</string>
+
+    <string name="image_thumbnail">Image Thumbnail</string>
 </resources>
