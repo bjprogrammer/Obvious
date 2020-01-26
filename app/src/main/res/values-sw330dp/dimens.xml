@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="card_layout_margin">2dp</dimen>
+    <dimen name="card_layout_corner_radius">3dp</dimen>
+    <dimen name="card_layout_elevation">3dp</dimen>
+
+    <dimen name="text_large">17sp</dimen>
+    <dimen name="text_x_large">27sp</dimen>
+</resources>
+
