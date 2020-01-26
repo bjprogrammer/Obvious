@@ -16,7 +16,7 @@ public class ConnectivityReceiver extends BroadcastReceiver {
     }
 
     @Override
-    public void onReceive(Context context, Intent arg1) {
+    public void onReceive(Context context, Intent arg) {
 
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = null;
