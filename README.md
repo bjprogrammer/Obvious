@@ -29,3 +29,8 @@ Setup Instructions-
 4.) Sync the gradle files and build the project
 
 5.) Run the project on any emulator configuration with API 21 or higher
+
+
+![Screenshot_1580069054](https://user-images.githubusercontent.com/30449951/73141820-543d1d80-40ae-11ea-8abc-33791aab5963.png)
+![Screenshot_1580069077](https://user-images.githubusercontent.com/30449951/73141826-5d2def00-40ae-11ea-8cca-8cbd52b3da4d.png)
+![Screenshot_1580069083](https://user-images.githubusercontent.com/30449951/73141827-6028df80-40ae-11ea-9d81-6bf761e20695.png)
